@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>JS For Beginners</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>JS For Beginners</h1>
+    </header>
+
+
+    <form onsubmit="saveToLocalStorage(event)">
+        <label>name</label>
+        <input type="text" name="username" required />
+        <label>email</label>
+        <input type="email" name="emailid" required />
+        <button>submit</button>
+    </form>
+
+    <ul id="users"></ul>
+
+    <script>
+        function saveToLocalStorage(event) {
+            // to prevent from unecessary reloading
+            event.preventDefault();
+            var name = event.target.username.value;
+            var email = event.target.emailid.value;
+            // localStorage.setItem('username', name);
+            // localStorage.setItem('emailid', email);
+
+
+            var myobj = {
+                name,
+                email,
+            }
+            localStorage.setItem(myobj.email, JSON.stringify(myobj))
+            showUserOnScreen(myobj)
+        }
+
+        function showUserOnScreen(myobj) {
+            var parentElement = document.getElementById("users");
+            var childElement = document.createElement('li')
+            childElement.textContent = myobj.name + '-' + myobj.email + '-' + myobj.age
+            parentElement.appendChild(childElement)
+
+
+            var deletebutton = document.createElement('input')
+            deletebutton.type = "button"
+            deletebutton.value = 'delete'
+            deletebutton.onclick = () => {
+                localStorage.removeItem(myobj.email)
+                parentElement.removeChild(childElement)
+            }
+            childElement.appendChild(deletebutton)
+            parentElement.appendChild(childElement)
+
+
+
+
+            var editbutton = document.createElement('input')
+            editbutton.type = "button"
+            editbutton.value = 'edit'
+            editbutton.onclick = () => {
+                localStorage.removeItem(myobj.email)
+                parentElement.removeChild(childElement)
+                
+            }
+
+            childElement.appendChild(editbutton)
+            parentElement.appendChild(childElement)
+        }
+    </script>
+</body>
+
+</html>
